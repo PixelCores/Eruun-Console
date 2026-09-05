@@ -24,6 +24,16 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'warn',
       'react-hooks/set-state-in-effect': 'warn',
       'react-refresh/only-export-components': 'warn',
+      // 未使用变量的标准豁免：下划线前缀参数/变量、rest 解构排除（omit 模式）、下划线 catch 参数
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ])

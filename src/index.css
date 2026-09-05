@@ -1,0 +1,126 @@
+@import 'tailwindcss';
+@import './styles/themes.css';
+
+/*
+ * Tailwind 4 CSS-first 配置：
+ * @theme inline 将工具类令牌映射到 themes.css 中的语义化 CSS 变量，
+ * 类名与 KubeMin-Console 保持一致（如 text-text-primary、bg-components-panel-bg），
+ * 便于直接移植其组件。
+ */
+@theme inline {
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-quaternary: var(--text-quaternary);
+  --color-text-placeholder: var(--text-placeholder);
+  --color-text-disabled: var(--text-disabled);
+
+  --color-background-body: var(--background-body);
+  --color-background-default: var(--background-default);
+  --color-background-surface-white: var(--background-surface-white);
+  --color-background-neutral-subtle: var(--background-neutral-subtle);
+
+  --color-state-base-hover: var(--state-base-hover);
+  --color-state-accent-hover: var(--state-accent-hover);
+  --color-state-accent-solid: var(--state-accent-solid);
+
+  --color-components-button-primary-bg: var(--components-button-primary-bg);
+  --color-components-button-primary-bg-hover: var(--components-button-primary-bg-hover);
+  --color-components-button-primary-bg-disabled: var(--components-button-primary-bg-disabled);
+  --color-components-button-primary-border: var(--components-button-primary-border);
+  --color-components-button-primary-border-hover: var(--components-button-primary-border-hover);
+  --color-components-button-primary-border-disabled: var(--components-button-primary-border-disabled);
+  --color-components-button-primary-text: var(--components-button-primary-text);
+  --color-components-button-primary-text-disabled: var(--components-button-primary-text-disabled);
+
+  --color-components-button-secondary-bg: var(--components-button-secondary-bg);
+  --color-components-button-secondary-bg-hover: var(--components-button-secondary-bg-hover);
+  --color-components-button-secondary-bg-disabled: var(--components-button-secondary-bg-disabled);
+  --color-components-button-secondary-border: var(--components-button-secondary-border);
+  --color-components-button-secondary-border-hover: var(--components-button-secondary-border-hover);
+  --color-components-button-secondary-border-disabled: var(--components-button-secondary-border-disabled);
+  --color-components-button-secondary-text: var(--components-button-secondary-text);
+  --color-components-button-secondary-text-disabled: var(--components-button-secondary-text-disabled);
+  --color-components-button-secondary-accent-text: var(--components-button-secondary-accent-text);
+  --color-components-button-secondary-accent-text-disabled: var(--components-button-secondary-accent-text-disabled);
+
+  --color-components-button-tertiary-bg: var(--components-button-tertiary-bg);
+  --color-components-button-tertiary-bg-hover: var(--components-button-tertiary-bg-hover);
+  --color-components-button-tertiary-text: var(--components-button-tertiary-text);
+  --color-components-button-tertiary-text-disabled: var(--components-button-tertiary-text-disabled);
+
+  --color-components-button-ghost-bg-hover: var(--components-button-ghost-bg-hover);
+  --color-components-button-ghost-text: var(--components-button-ghost-text);
+  --color-components-button-ghost-text-disabled: var(--components-button-ghost-text-disabled);
+  --color-components-button-ghost-accent-text: var(--components-button-ghost-accent-text);
+  --color-components-button-ghost-accent-text-disabled: var(--components-button-ghost-accent-text-disabled);
+
+  --color-components-button-warning-text: var(--components-button-warning-text);
+  --color-components-button-warning-border: var(--components-button-warning-border);
+  --color-components-button-warning-bg-hover: var(--components-button-warning-bg-hover);
+
+  --color-components-button-destructive-bg: var(--components-button-destructive-bg);
+  --color-components-button-destructive-bg-hover: var(--components-button-destructive-bg-hover);
+  --color-components-button-destructive-text: var(--components-button-destructive-text);
+
+  --color-components-panel-bg: var(--components-panel-bg);
+  --color-components-panel-bg-blur: var(--components-panel-bg-blur);
+  --color-components-panel-border: var(--components-panel-border);
+  --color-components-panel-border-subtle: var(--components-panel-border-subtle);
+
+  --color-divider-subtle: var(--divider-subtle);
+  --color-divider-regular: var(--divider-regular);
+
+  --shadow-xs: var(--shadow-1);
+  --shadow-sm: var(--shadow-2);
+  --shadow-md: var(--shadow-3);
+  --shadow-lg: var(--shadow-6);
+
+  --backdrop-blur-xs: blur(5px);
+  --backdrop-blur-sm: blur(8px);
+}
+
+/* 静态令牌（不随主题切换的扩展色板） */
+@theme {
+  --color-state-success-solid: #22c55e;
+  --color-state-destructive-solid: #ef4444;
+  --color-state-warning-solid: #f59e0b;
+  --color-text-accent: #155eef;
+
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+}
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: var(--text-primary);
+  background-color: var(--background-body);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+}

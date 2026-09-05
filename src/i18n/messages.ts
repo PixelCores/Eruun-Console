@@ -1,0 +1,151 @@
+/**
+ * next-intl 文案。新增页面时在对应命名空间下补充中英文两份。
+ * 命名规范：按页面/功能域分组（PascalCase），键为 camelCase。
+ */
+export const messages = {
+  en: {
+    Common: {
+      loading: 'Loading…',
+      retry: 'Retry',
+      empty: 'No data',
+      close: 'Close',
+      cancel: 'Cancel',
+      save: 'Save',
+      delete: 'Delete',
+      edit: 'Edit',
+      create: 'Create',
+      search: 'Search',
+    },
+    Header: {
+      brand: 'Eruun Console',
+      language: 'Language',
+      english: 'English',
+      chinese: '中文',
+      account: 'Account menu',
+      signOut: 'Sign out',
+      signingOut: 'Signing out…',
+    },
+    Roles: {
+      purchaser: 'Purchaser',
+      developer: 'Developer',
+      businessDevelopment: 'Business development',
+      administrator: 'Administrator',
+    },
+    Sidebar: {
+      dashboard: 'Dashboard',
+      apps: 'Applications',
+    },
+    Login: {
+      title: 'Sign in to Eruun Console',
+      subtitle: 'Distributed runtime for agents, models and AI workloads',
+      identifier: 'Account',
+      identifierPlaceholder: 'Email or username',
+      password: 'Password',
+      passwordPlaceholder: 'Enter your password',
+      remember: 'Remember me',
+      submit: 'Sign in',
+      submitting: 'Signing in…',
+      failed: 'Sign in failed. Check your account and password.',
+    },
+    Dashboard: {
+      title: 'Dashboard',
+      welcome: 'Welcome to Eruun Console',
+      description:
+        'Eruun is a distributed runtime for agents, models and AI workloads. This console is under active development.',
+      appCount: 'Applications',
+      apiBaseUrl: 'API endpoint',
+      version: 'Version',
+      authStatus: 'Auth guard',
+      authOn: 'Enabled',
+      authOff: 'Disabled',
+    },
+    Apps: {
+      title: 'Applications',
+      name: 'Name',
+      namespace: 'Namespace',
+      alias: 'Alias',
+      project: 'Project',
+      replicas: 'Replicas',
+      createTime: 'Created',
+      loadError: 'Failed to load applications. Is the Eruun API server running?',
+    },
+    NotFound: {
+      title: 'Page not found',
+      backHome: 'Back to dashboard',
+    },
+  },
+  'zh-CN': {
+    Common: {
+      loading: '加载中…',
+      retry: '重试',
+      empty: '暂无数据',
+      close: '关闭',
+      cancel: '取消',
+      save: '保存',
+      delete: '删除',
+      edit: '编辑',
+      create: '创建',
+      search: '搜索',
+    },
+    Header: {
+      brand: 'Eruun Console',
+      language: '语言',
+      english: 'English',
+      chinese: '中文',
+      account: '账户菜单',
+      signOut: '退出登录',
+      signingOut: '正在退出…',
+    },
+    Roles: {
+      purchaser: '采购方',
+      developer: '开发者',
+      businessDevelopment: '商务拓展',
+      administrator: '管理员',
+    },
+    Sidebar: {
+      dashboard: '仪表盘',
+      apps: '应用',
+    },
+    Login: {
+      title: '登录 Eruun Console',
+      subtitle: '面向 Agent、模型与 AI 工作负载的分布式运行时',
+      identifier: '账号',
+      identifierPlaceholder: '邮箱或用户名',
+      password: '密码',
+      passwordPlaceholder: '请输入密码',
+      remember: '记住我',
+      submit: '登录',
+      submitting: '登录中…',
+      failed: '登录失败，请检查账号和密码。',
+    },
+    Dashboard: {
+      title: '仪表盘',
+      welcome: '欢迎使用 Eruun Console',
+      description:
+        'Eruun 是面向 Agent、模型与 AI 工作负载的分布式运行时。本控制台正在积极开发中。',
+      appCount: '应用数量',
+      apiBaseUrl: 'API 地址',
+      version: '版本',
+      authStatus: '登录守卫',
+      authOn: '已启用',
+      authOff: '已关闭',
+    },
+    Apps: {
+      title: '应用',
+      name: '名称',
+      namespace: '命名空间',
+      alias: '别名',
+      project: '项目',
+      replicas: '副本数',
+      createTime: '创建时间',
+      loadError: '加载应用失败，请确认 Eruun API 服务已启动。',
+    },
+    NotFound: {
+      title: '页面不存在',
+      backHome: '返回仪表盘',
+    },
+  },
+} as const
+
+export type MessageSchema = (typeof messages)['en']
+export type AppLocale = keyof typeof messages

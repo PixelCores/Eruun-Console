@@ -1,0 +1,177 @@
+/*
+ * 语义化设计令牌（CSS 变量），由 index.css 的 @theme inline 映射为 Tailwind 工具类。
+ * 变量名不带 --color- 前缀，避免与 Tailwind 主题令牌同名造成循环引用。
+ * .dark 类切换暗色主题。
+ */
+
+:root {
+  /* Text Colors */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  --text-quaternary: #9ca3af;
+  --text-placeholder: #d1d5db;
+  --text-disabled: #e5e7eb;
+
+  /* Background Colors */
+  --background-body: #f9fafb;
+  --background-default: #ffffff;
+  --background-surface-white: #ffffff;
+  --background-neutral-subtle: #f3f4f6;
+
+  /* State Colors */
+  --state-base-hover: #f3f4f6;
+  --state-accent-hover: #eef2ff;
+  --state-accent-solid: #4f46e5;
+
+  /* Button Colors - Primary */
+  --components-button-primary-bg: #155eef;
+  --components-button-primary-bg-hover: #175cd3;
+  --components-button-primary-bg-disabled: #b2ddff;
+  --components-button-primary-border: #155eef;
+  --components-button-primary-border-hover: #175cd3;
+  --components-button-primary-border-disabled: #b2ddff;
+  --components-button-primary-text: #ffffff;
+  --components-button-primary-text-disabled: #ffffff;
+
+  /* Button Colors - Secondary */
+  --components-button-secondary-bg: #ffffff;
+  --components-button-secondary-bg-hover: #f9fafb;
+  --components-button-secondary-bg-disabled: #ffffff;
+  --components-button-secondary-border: #d0d5dd;
+  --components-button-secondary-border-hover: #d0d5dd;
+  --components-button-secondary-border-disabled: #eaecf0;
+  --components-button-secondary-text: #344054;
+  --components-button-secondary-text-disabled: #d0d5dd;
+  --components-button-secondary-accent-text: #155eef;
+  --components-button-secondary-accent-text-disabled: #b2ddff;
+
+  /* Button Colors - Tertiary */
+  --components-button-tertiary-bg: #ffffff;
+  --components-button-tertiary-bg-hover: #f9fafb;
+  --components-button-tertiary-text: #344054;
+  --components-button-tertiary-text-disabled: #d0d5dd;
+
+  /* Button Colors - Ghost */
+  --components-button-ghost-bg-hover: #f3f4f6;
+  --components-button-ghost-text: #667085;
+  --components-button-ghost-text-disabled: #d0d5dd;
+  --components-button-ghost-accent-text: #155eef;
+  --components-button-ghost-accent-text-disabled: #b2ddff;
+
+  /* Button Colors - Warning */
+  --components-button-warning-text: #dc6803;
+  --components-button-warning-border: #dc6803;
+  --components-button-warning-bg-hover: #fef0c7;
+
+  /* Button Colors - Destructive */
+  --components-button-destructive-bg: #d92d20;
+  --components-button-destructive-bg-hover: #b42318;
+  --components-button-destructive-text: #ffffff;
+
+  /* Panel Colors */
+  --components-panel-bg: #ffffff;
+  --components-panel-bg-blur: rgba(255, 255, 255, 0.9);
+  --components-panel-border: #e5e7eb;
+  --components-panel-border-subtle: #f3f4f6;
+
+  /* Borders */
+  --divider-subtle: #f3f4f6;
+  --divider-regular: #e5e7eb;
+
+  /* Shadows */
+  --shadow-1: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-2:
+    0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-3:
+    0px 4px 6px -1px rgba(16, 24, 40, 0.1),
+    0px 2px 4px -1px rgba(16, 24, 40, 0.06);
+  --shadow-6:
+    0px 20px 24px -4px rgba(16, 24, 40, 0.08),
+    0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+}
+
+.dark {
+  /* Text Colors */
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --text-quaternary: #6b7280;
+  --text-placeholder: #4b5563;
+  --text-disabled: #374151;
+
+  /* Background Colors */
+  --background-body: #111827;
+  --background-default: #1f2937;
+  --background-surface-white: #1f2937;
+  --background-neutral-subtle: #374151;
+
+  /* State Colors */
+  --state-base-hover: #374151;
+  --state-accent-hover: #312e81;
+  --state-accent-solid: #6366f1;
+
+  /* Button Colors - Primary */
+  --components-button-primary-bg: #155eef;
+  --components-button-primary-bg-hover: #175cd3;
+  --components-button-primary-bg-disabled: #1e3a8a;
+  --components-button-primary-border: #155eef;
+  --components-button-primary-border-hover: #175cd3;
+  --components-button-primary-border-disabled: #1e3a8a;
+  --components-button-primary-text: #ffffff;
+  --components-button-primary-text-disabled: #9ca3af;
+
+  /* Button Colors - Secondary */
+  --components-button-secondary-bg: #1f2937;
+  --components-button-secondary-bg-hover: #374151;
+  --components-button-secondary-bg-disabled: #1f2937;
+  --components-button-secondary-border: #4b5563;
+  --components-button-secondary-border-hover: #4b5563;
+  --components-button-secondary-border-disabled: #374151;
+  --components-button-secondary-text: #d1d5db;
+  --components-button-secondary-text-disabled: #4b5563;
+  --components-button-secondary-accent-text: #6366f1;
+  --components-button-secondary-accent-text-disabled: #312e81;
+
+  /* Button Colors - Tertiary */
+  --components-button-tertiary-bg: #1f2937;
+  --components-button-tertiary-bg-hover: #374151;
+  --components-button-tertiary-text: #d1d5db;
+  --components-button-tertiary-text-disabled: #4b5563;
+
+  /* Button Colors - Ghost */
+  --components-button-ghost-bg-hover: #374151;
+  --components-button-ghost-text: #9ca3af;
+  --components-button-ghost-text-disabled: #4b5563;
+  --components-button-ghost-accent-text: #6366f1;
+  --components-button-ghost-accent-text-disabled: #312e81;
+
+  /* Button Colors - Warning */
+  --components-button-warning-text: #fdb022;
+  --components-button-warning-border: #fdb022;
+  --components-button-warning-bg-hover: #451a03;
+
+  /* Button Colors - Destructive */
+  --components-button-destructive-bg: #d92d20;
+  --components-button-destructive-bg-hover: #b42318;
+  --components-button-destructive-text: #ffffff;
+
+  /* Panel Colors */
+  --components-panel-bg: #1f2937;
+  --components-panel-bg-blur: rgba(31, 41, 55, 0.9);
+  --components-panel-border: #374151;
+  --components-panel-border-subtle: #374151;
+
+  /* Borders */
+  --divider-subtle: #374151;
+  --divider-regular: #4b5563;
+
+  /* Shadows */
+  --shadow-1: 0px 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2:
+    0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-3:
+    0px 4px 6px -1px rgba(0, 0, 0, 0.3), 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-6:
+    0px 20px 24px -4px rgba(0, 0, 0, 0.3), 0px 8px 8px -4px rgba(0, 0, 0, 0.2);
+}

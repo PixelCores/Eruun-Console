@@ -82,6 +82,15 @@
     --color-shadow-shadow-2: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
     --color-shadow-shadow-3: 0px 4px 6px -1px rgba(16, 24, 40, 0.1), 0px 2px 4px -1px rgba(16, 24, 40, 0.06);
     --color-shadow-shadow-6: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+
+    /* 补充令牌（Tailwind 4 移植补齐：组件已使用但原先未定义的语义色） */
+    --color-components-panel-bg-alt: #F9FAFB;
+    --color-state-accent-soft: #EEF2FF;
+    --color-state-accent-soft-hover: #E0E7FF;
+    --color-state-accent-disabled: #B2DDFF;
+    --color-state-accent-solid-hover: #4338CA;
+    --color-state-destructive-hover: #FEE4E2;
+    --color-text-destructive: #D92D20;
 }
 
 .dark {
@@ -164,4 +173,13 @@
     --color-shadow-shadow-2: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 2px rgba(0, 0, 0, 0.2);
     --color-shadow-shadow-3: 0px 4px 6px -1px rgba(0, 0, 0, 0.3), 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
     --color-shadow-shadow-6: 0px 20px 24px -4px rgba(0, 0, 0, 0.3), 0px 8px 8px -4px rgba(0, 0, 0, 0.2);
+
+    /* 补充令牌（Tailwind 4 移植补齐：组件已使用但原先未定义的语义色） */
+    --color-components-panel-bg-alt: #374151;
+    --color-state-accent-soft: #312E81;
+    --color-state-accent-soft-hover: #3730A3;
+    --color-state-accent-disabled: #1E3A8A;
+    --color-state-accent-solid-hover: #4F46E5;
+    --color-state-destructive-hover: #3F1D1D;
+    --color-text-destructive: #F97066;
 }

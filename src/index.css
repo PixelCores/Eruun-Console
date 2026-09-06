@@ -2,6 +2,59 @@
 @import "./styles/themes.css";
 @import "./components/ui/Button.css";
 
+/*
+ * 设计令牌补全（修复移植后按钮等组件样式缺失）：
+ * Tailwind 4 只为 @theme 中声明的令牌生成工具类。以下令牌经 @theme inline
+ * 映射到 themes.css 的同名 CSS 变量（支持亮/暗主题切换），使组件中使用的
+ * hover:/disabled: 等变体类能够正常生成。
+ */
+@theme inline {
+  /* 文本 */
+  --color-text-quaternary: var(--color-text-quaternary);
+  --color-text-destructive: var(--color-text-destructive);
+
+  /* 背景与面板 */
+  --color-background-body: var(--color-background-body);
+  --color-components-panel-bg-alt: var(--color-components-panel-bg-alt);
+  --color-divider-subtle: var(--color-divider-subtle);
+
+  /* 状态色 */
+  --color-state-accent-soft: var(--color-state-accent-soft);
+  --color-state-accent-soft-hover: var(--color-state-accent-soft-hover);
+  --color-state-accent-disabled: var(--color-state-accent-disabled);
+  --color-state-accent-solid-hover: var(--color-state-accent-solid-hover);
+  --color-state-destructive-hover: var(--color-state-destructive-hover);
+
+  /* 按钮 - Primary */
+  --color-components-button-primary-bg-hover: var(--color-components-button-primary-bg-hover);
+  --color-components-button-primary-bg-disabled: var(--color-components-button-primary-bg-disabled);
+  --color-components-button-primary-border: var(--color-components-button-primary-border);
+  --color-components-button-primary-border-hover: var(--color-components-button-primary-border-hover);
+  --color-components-button-primary-border-disabled: var(--color-components-button-primary-border-disabled);
+  --color-components-button-primary-text-disabled: var(--color-components-button-primary-text-disabled);
+
+  /* 按钮 - Secondary */
+  --color-components-button-secondary-bg-hover: var(--color-components-button-secondary-bg-hover);
+  --color-components-button-secondary-bg-disabled: var(--color-components-button-secondary-bg-disabled);
+  --color-components-button-secondary-border-hover: var(--color-components-button-secondary-border-hover);
+  --color-components-button-secondary-border-disabled: var(--color-components-button-secondary-border-disabled);
+  --color-components-button-secondary-text: var(--color-components-button-secondary-text);
+  --color-components-button-secondary-text-disabled: var(--color-components-button-secondary-text-disabled);
+  --color-components-button-secondary-accent-text: var(--color-components-button-secondary-accent-text);
+  --color-components-button-secondary-accent-text-disabled: var(--color-components-button-secondary-accent-text-disabled);
+
+  /* 按钮 - Tertiary / Ghost */
+  --color-components-button-tertiary-bg: var(--color-components-button-tertiary-bg);
+  --color-components-button-tertiary-bg-hover: var(--color-components-button-tertiary-bg-hover);
+  --color-components-button-tertiary-text: var(--color-components-button-tertiary-text);
+  --color-components-button-tertiary-text-disabled: var(--color-components-button-tertiary-text-disabled);
+  --color-components-button-ghost-bg-hover: var(--color-components-button-ghost-bg-hover);
+  --color-components-button-ghost-text: var(--color-components-button-ghost-text);
+  --color-components-button-ghost-text-disabled: var(--color-components-button-ghost-text-disabled);
+  --color-components-button-ghost-accent-text: var(--color-components-button-ghost-accent-text);
+  --color-components-button-ghost-accent-text-disabled: var(--color-components-button-ghost-accent-text-disabled);
+}
+
 @theme {
   --color-components-panel-bg: #ffffff;
   --color-components-panel-border: #e2e8f0;

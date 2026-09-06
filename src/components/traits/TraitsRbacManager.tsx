@@ -198,7 +198,7 @@ const TraitsRbacManager: React.FC<TraitsRbacManagerProps> = ({ rbac, onChange })
                     <button
                         type="button"
                         onClick={() => addLabel(setter)}
-                        className="flex items-center gap-1 text-xs text-state-accent-solid hover:text-state-accent-active"
+                        className="flex items-center gap-1 text-xs text-state-accent-solid hover:text-state-accent-solid-hover"
                     >
                         <Plus size={12} />
                         Add Label
@@ -213,7 +213,7 @@ const TraitsRbacManager: React.FC<TraitsRbacManagerProps> = ({ rbac, onChange })
             {!isAdding ? (
                 <button
                     onClick={() => setIsAdding(true)}
-                    className="flex items-center gap-2 text-sm text-state-accent-solid hover:text-state-accent-active font-medium"
+                    className="flex items-center gap-2 text-sm text-state-accent-solid hover:text-state-accent-solid-hover font-medium"
                 >
                     <Plus size={16} />
                     Add RBAC
@@ -271,7 +271,7 @@ const TraitsRbacManager: React.FC<TraitsRbacManagerProps> = ({ rbac, onChange })
                                 <button
                                     type="button"
                                     onClick={addRule}
-                                    className="flex items-center gap-1 text-xs text-state-accent-solid hover:text-state-accent-active"
+                                    className="flex items-center gap-1 text-xs text-state-accent-solid hover:text-state-accent-solid-hover"
                                 >
                                     <Plus size={12} />
                                     Add Rule

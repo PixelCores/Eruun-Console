@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslations } from 'next-intl';
-import { Eye, EyeOff, Play } from 'lucide-react';
+import { Eye, EyeOff, Github, Mail, Play } from 'lucide-react';
 import { sendLoginCode } from '../../api/paasAuth';
 import { getSafeRedirect, isSessionActive, useAuthStore } from '../../stores/authStore';
 
@@ -13,7 +13,29 @@ type LoginNotice = {
   message: string;
 };
 
-const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+/**
+ * 登录卡片调色板 —— 白色风格（布局/字号/间距与参考图 1:1，配色适配白底）。
+ * 品牌紫 #6D5DE7 取样自参考图；页面为固定浅色设计，不随暗色主题切换。
+ */
+const palette = {
+  card: 'bg-white',
+  cardBorder: 'border border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.06)]',
+  oauthButton:
+    'bg-white border-gray-300 hover:bg-gray-50 text-gray-700',
+  dividerLine: 'bg-gray-200',
+  dividerText: 'text-gray-400',
+  label: 'text-gray-900',
+  input:
+    'bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-[#6D5DE7] focus:ring-2 focus:ring-[#6D5DE7]/20',
+  accent: 'bg-[#6D5DE7] hover:bg-[#5D4FD6] text-white',
+  accentText: 'text-[#6D5DE7]',
+  cardFooter: 'bg-gray-50 border-t border-gray-100',
+  cardFooterText: 'text-gray-500',
+  subtitle: 'text-gray-500',
+  emailChip: 'bg-gray-100 text-gray-700',
+  noticeError: 'text-red-600',
+  noticeSuccess: 'text-green-600',
+} as const;
 
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -45,6 +67,18 @@ const GoogleIcon = () => (
   </svg>
 );
 
+const TwitterIcon = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
+    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+  </svg>
+);
+
+const DiscordIcon = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" aria-hidden="true">
+    <path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037 12.36 12.36 0 00-.608 1.25 18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.319 13.58.099 18.058a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.042-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.078-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.007.128 12.3 12.3 0 01-1.873.891.077.077 0 00-.041.107c.36.698.764 1.363 1.225 1.993a.076.076 0 00.084.029 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.029-.029zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.211 0 2.176 1.095 2.157 2.419 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.095 2.157 2.419 0 1.333-.946 2.419-2.157 2.419z" />
+  </svg>
+);
+
 /** 跳转到后端 OAuth 2.0 授权起点（/auth/oauth2/:provider/start） */
 const startOAuth = (provider: 'github' | 'google') => {
   const base = (
@@ -54,6 +88,8 @@ const startOAuth = (provider: 'github' | 'google') => {
   ).replace(/\/+$/, '');
   window.location.href = `${base}/auth/oauth2/${provider}/start`;
 };
+
+const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const LoginPage = () => {
   const t = useTranslations('Login');
@@ -158,249 +194,258 @@ const LoginPage = () => {
     }
   };
 
-  const switchCredentialMode = (mode: CredentialMode) => {
-    setCredentialMode(mode);
-    setNotice(null);
-  };
-
-  const inputClass =
-    'h-11 w-full rounded-lg border border-gray-300 bg-white px-3.5 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-state-accent-solid focus:ring-2 focus:ring-state-accent-solid/20 disabled:opacity-60';
+  const inputClass = `h-11 w-full rounded-lg border px-3.5 text-sm outline-none transition disabled:opacity-60 ${palette.input}`;
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white px-4 py-10">
-      <div className="w-full max-w-[400px]">
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-          <div className="px-8 pb-8 pt-10">
-            {/* 标题区 */}
-            <h1 className="text-center text-2xl font-semibold tracking-tight text-gray-900">
-              {t('signInTitle')}
-            </h1>
-            <p className="mt-2 text-center text-sm text-gray-500">
-              {t('welcomeBack')}
-            </p>
+    <main className="flex min-h-screen flex-col bg-white">
+      {/* 居中深色卡片（参考图 1:1；页面主体白色） */}
+      <div className="flex flex-1 items-center justify-center px-4 py-16">
+        <div className="w-full max-w-[384px]">
+          <div className={`overflow-hidden rounded-2xl ${palette.card} ${palette.cardBorder}`}>
+            <div className="px-8 pb-7 pt-9">
+              <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900">
+                {t('signInTitle')}
+              </h1>
+              <p className={`mt-2 text-center text-sm ${palette.subtitle}`}>
+                {t('welcomeBack')}
+              </p>
 
-            {step === 'email' ? (
-              <form onSubmit={handleEmailContinue} className="mt-8 space-y-5">
-                {/* 第三方登录 */}
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => startOAuth('github')}
-                    className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                  >
-                    <GitHubIcon />
-                    GitHub
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => startOAuth('google')}
-                    className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                  >
-                    <GoogleIcon />
-                    Google
-                  </button>
-                </div>
-
-                {/* 分隔线 */}
-                <div className="flex items-center gap-4" aria-hidden="true">
-                  <span className="h-px flex-1 bg-gray-200" />
-                  <span className="text-xs text-gray-400">{t('or')}</span>
-                  <span className="h-px flex-1 bg-gray-200" />
-                </div>
-
-                {/* 邮箱 */}
-                <div className="space-y-1.5">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-900">
-                    {t('email')}
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder={t('emailPlaceholder')}
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    className={inputClass}
-                    required
-                  />
-                </div>
-
-                {notice && (
-                  <p
-                    role="status"
-                    className={`text-sm ${
-                      notice.kind === 'error' ? 'text-red-600' : 'text-green-600'
-                    }`}
-                  >
-                    {notice.message}
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  className="flex h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-state-accent-solid text-sm font-semibold text-white transition hover:bg-state-accent-solid-hover"
-                >
-                  {t('continueAction')}
-                  <Play size={13} fill="currentColor" aria-hidden="true" />
-                </button>
-              </form>
-            ) : (
-              <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-                {/* 已确认的邮箱 */}
-                <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3.5 py-2.5">
-                  <span className="truncate text-sm text-gray-700">{email}</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setStep('email');
-                      setNotice(null);
-                    }}
-                    className="ml-3 shrink-0 text-sm font-medium text-state-accent-solid hover:underline"
-                    disabled={isSubmitting}
-                  >
-                    {t('changeEmail')}
-                  </button>
-                </div>
-
-                {credentialMode === 'password' ? (
-                  <div className="space-y-1.5">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-900">
-                      {t('password')}
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="password"
-                        name="password"
-                        type={showPassword ? 'text' : 'password'}
-                        autoComplete="current-password"
-                        placeholder={t('passwordPlaceholder')}
-                        minLength={8}
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        className={`${inputClass} pr-11`}
-                        disabled={isSubmitting}
-                        required
-                      />
-                      <button
-                        type="button"
-                        aria-label={showPassword ? t('hidePassword') : t('showPassword')}
-                        aria-pressed={showPassword}
-                        onClick={() => setShowPassword((visible) => !visible)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                        disabled={isSubmitting}
-                      >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
+              {step === 'email' ? (
+                <form onSubmit={handleEmailContinue}>
+                  {/* 第三方登录 */}
+                  <div className="mt-8 flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => startOAuth('github')}
+                      className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border text-sm font-medium transition ${palette.oauthButton}`}
+                    >
+                      <GitHubIcon />
+                      GitHub
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => startOAuth('google')}
+                      className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border text-sm font-medium transition ${palette.oauthButton}`}
+                    >
+                      <GoogleIcon />
+                      Google
+                    </button>
                   </div>
-                ) : (
-                  <div className="space-y-1.5">
-                    <label htmlFor="verification-code" className="block text-sm font-medium text-gray-900">
-                      {t('verificationCode')}
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="verification-code"
-                        name="verificationCode"
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        placeholder={t('codePlaceholder')}
-                        pattern="[0-9]{6}"
-                        maxLength={6}
-                        value={verificationCode}
-                        onChange={(event) =>
-                          setVerificationCode(event.target.value.replace(/\D/g, '').slice(0, 6))
-                        }
-                        className={`${inputClass} pr-24`}
-                        disabled={isSubmitting}
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={handleSendCode}
-                        disabled={isSubmitting || isSendingCode || codeCooldown > 0}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-state-accent-solid hover:underline disabled:text-gray-400 disabled:no-underline"
-                      >
-                        {isSendingCode
-                          ? t('sending')
-                          : codeCooldown > 0
-                            ? t('resendIn', { seconds: codeCooldown })
-                            : t('sendCode')}
-                      </button>
-                    </div>
-                  </div>
-                )}
 
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 text-sm text-gray-600">
+                  {/* 分隔线 */}
+                  <div className="my-7 flex items-center gap-4" aria-hidden="true">
+                    <span className={`h-px flex-1 ${palette.dividerLine}`} />
+                    <span className={`text-xs ${palette.dividerText}`}>{t('or')}</span>
+                    <span className={`h-px flex-1 ${palette.dividerLine}`} />
+                  </div>
+
+                  {/* 邮箱 */}
+                  <div>
+                    <label htmlFor="email" className={`block text-sm font-semibold ${palette.label}`}>
+                      {t('email')}
+                    </label>
                     <input
-                      type="checkbox"
-                      name="remember"
-                      checked={remember}
-                      onChange={(event) => setRemember(event.target.checked)}
-                      disabled={isSubmitting}
-                      className="h-4 w-4 rounded border-gray-300 accent-indigo-600"
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder={t('emailFieldPlaceholder')}
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      className={`${inputClass} mt-2`}
+                      required
                     />
-                    {t('remember')}
-                  </label>
+                  </div>
+
+                  {notice && (
+                    <p
+                      role="status"
+                      className={`mt-4 text-sm ${notice.kind === 'error' ? palette.noticeError : palette.noticeSuccess}`}
+                    >
+                      {notice.message}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    className={`mt-7 flex h-12 w-full items-center justify-center gap-1.5 rounded-lg text-sm font-semibold transition ${palette.accent}`}
+                  >
+                    {t('continueAction')}
+                    <Play size={13} fill="currentColor" aria-hidden="true" />
+                  </button>
+                </form>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  {/* 已确认的邮箱 */}
+                  <div className={`mt-8 flex items-center justify-between rounded-lg px-3.5 py-2.5 ${palette.emailChip}`}>
+                    <span className="truncate text-sm">{email}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStep('email');
+                        setNotice(null);
+                      }}
+                      className={`ml-3 shrink-0 text-sm font-medium hover:underline ${palette.accentText}`}
+                      disabled={isSubmitting}
+                    >
+                      {t('changeEmail')}
+                    </button>
+                  </div>
+
+                  {credentialMode === 'password' ? (
+                    <div className="mt-5">
+                      <label htmlFor="password" className={`block text-sm font-semibold ${palette.label}`}>
+                        {t('password')}
+                      </label>
+                      <div className="relative mt-2">
+                        <input
+                          id="password"
+                          name="password"
+                          type={showPassword ? 'text' : 'password'}
+                          autoComplete="current-password"
+                          placeholder={t('passwordPlaceholder')}
+                          minLength={8}
+                          value={password}
+                          onChange={(event) => setPassword(event.target.value)}
+                          className={`${inputClass} pr-11`}
+                          disabled={isSubmitting}
+                          required
+                        />
+                        <button
+                          type="button"
+                          aria-label={showPassword ? t('hidePassword') : t('showPassword')}
+                          aria-pressed={showPassword}
+                          onClick={() => setShowPassword((visible) => !visible)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          disabled={isSubmitting}
+                        >
+                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-5">
+                      <label htmlFor="verification-code" className={`block text-sm font-semibold ${palette.label}`}>
+                        {t('verificationCode')}
+                      </label>
+                      <div className="relative mt-2">
+                        <input
+                          id="verification-code"
+                          name="verificationCode"
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          placeholder={t('codePlaceholder')}
+                          pattern="[0-9]{6}"
+                          maxLength={6}
+                          value={verificationCode}
+                          onChange={(event) =>
+                            setVerificationCode(event.target.value.replace(/\D/g, '').slice(0, 6))
+                          }
+                          className={`${inputClass} pr-24`}
+                          disabled={isSubmitting}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={handleSendCode}
+                          disabled={isSubmitting || isSendingCode || codeCooldown > 0}
+                          className={`absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium hover:underline disabled:no-underline disabled:text-gray-400 ${palette.accentText}`}
+                        >
+                          {isSendingCode
+                            ? t('sending')
+                            : codeCooldown > 0
+                              ? t('resendIn', { seconds: codeCooldown })
+                              : t('sendCode')}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="mt-4 flex items-center justify-between">
+                    <label className={`flex items-center gap-2 text-sm ${palette.cardFooterText}`}>
+                      <input
+                        type="checkbox"
+                        name="remember"
+                        checked={remember}
+                        onChange={(event) => setRemember(event.target.checked)}
+                        disabled={isSubmitting}
+                        className="h-4 w-4 rounded border-gray-300 bg-white accent-[#6D5DE7]"
+                      />
+                      {t('remember')}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCredentialMode((mode) => (mode === 'password' ? 'email-code' : 'password'));
+                        setNotice(null);
+                      }}
+                      className={`text-sm font-medium hover:underline ${palette.accentText}`}
+                      disabled={isSubmitting}
+                    >
+                      {credentialMode === 'password' ? t('useEmailCode') : t('usePassword')}
+                    </button>
+                  </div>
+
+                  {notice && (
+                    <p
+                      role="status"
+                      className={`mt-4 text-sm ${notice.kind === 'error' ? palette.noticeError : palette.noticeSuccess}`}
+                    >
+                      {notice.message}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={`mt-6 flex h-12 w-full items-center justify-center gap-1.5 rounded-lg text-sm font-semibold transition disabled:opacity-60 ${palette.accent}`}
+                  >
+                    {isSubmitting ? t('signingIn') : t('signIn')}
+                    {!isSubmitting && <Play size={13} fill="currentColor" aria-hidden="true" />}
+                  </button>
+                </form>
+              )}
+            </div>
+
+            {/* 卡片底部注册条 */}
+            <div className={`px-8 py-4 text-center text-sm ${palette.cardFooter} ${palette.cardFooterText}`}>
+              {showSignUpHint ? (
+                <span>{t('signUpUnavailable')}</span>
+              ) : (
+                <>
+                  {t('noAccount')}{' '}
                   <button
                     type="button"
-                    onClick={() =>
-                      switchCredentialMode(
-                        credentialMode === 'password' ? 'email-code' : 'password',
-                      )
-                    }
-                    className="text-sm font-medium text-state-accent-solid hover:underline"
-                    disabled={isSubmitting}
+                    onClick={() => setShowSignUpHint(true)}
+                    className={`font-medium hover:underline ${palette.accentText}`}
                   >
-                    {credentialMode === 'password' ? t('useEmailCode') : t('usePassword')}
+                    {t('signUp')}
                   </button>
-                </div>
-
-                {notice && (
-                  <p
-                    role="status"
-                    className={`text-sm ${
-                      notice.kind === 'error' ? 'text-red-600' : 'text-green-600'
-                    }`}
-                  >
-                    {notice.message}
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-state-accent-solid text-sm font-semibold text-white transition hover:bg-state-accent-solid-hover disabled:opacity-60"
-                >
-                  {isSubmitting ? t('signingIn') : t('signIn')}
-                  {!isSubmitting && <Play size={13} fill="currentColor" aria-hidden="true" />}
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* 底部注册条 */}
-          <div className="rounded-b-2xl border-t border-gray-100 bg-gray-50/60 px-8 py-4 text-center text-xs text-gray-500">
-            {showSignUpHint ? (
-              <span className="text-gray-600">{t('signUpUnavailable')}</span>
-            ) : (
-              <>
-                {t('noAccount')}{' '}
-                <button
-                  type="button"
-                  onClick={() => setShowSignUpHint(true)}
-                  className="font-medium text-state-accent-solid hover:underline"
-                >
-                  {t('signUp')}
-                </button>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* 页面底部（白色主体上） */}
+      <footer className="pb-10 text-center">
+        <nav className="flex items-center justify-center gap-3 text-sm text-gray-500">
+          <a href="#" className="transition hover:text-gray-700">{t('terms')}</a>
+          <span aria-hidden="true" className="text-gray-300">·</span>
+          <a href="#" className="transition hover:text-gray-700">{t('privacy')}</a>
+          <span aria-hidden="true" className="text-gray-300">·</span>
+          <a href="#" className="transition hover:text-gray-700">{t('download')}</a>
+        </nav>
+        <div className="mt-5 flex items-center justify-center gap-5 text-gray-500">
+          <a href="#" aria-label="Twitter" className="transition hover:text-gray-700"><TwitterIcon /></a>
+          <a href="#" aria-label="GitHub" className="transition hover:text-gray-700"><Github size={22} strokeWidth={1.6} /></a>
+          <a href="#" aria-label="Discord" className="transition hover:text-gray-700"><DiscordIcon /></a>
+          <a href="#" aria-label="Email" className="transition hover:text-gray-700"><Mail size={22} strokeWidth={1.6} /></a>
+        </div>
+        <p className="mt-6 text-sm text-gray-400">{t('copyright')}</p>
+      </footer>
     </main>
   );
 };

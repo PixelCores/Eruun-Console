@@ -34,14 +34,19 @@ export const CommandPalette: React.FC = () => {
 
     const { shortcuts, shortcutsEnabled } = useShortcutsStore();
     const navigationItems: NavigationItem[] = [
-        { id: 'dash-widgets', name: t('dashboard'), category: t('dashboard'), path: '/dashboard1', section: 'widgets', keywords: ['home', 'main', 'widgets', '首页'] },
+        { id: 'dash-overview', name: t('dashboard'), category: t('dashboard'), path: '/', keywords: ['home', 'main', 'overview', '首页'] },
+        { id: 'dash-widgets', name: t('dashboardLegacy'), category: t('dashboard'), path: '/dashboard1', section: 'widgets', keywords: ['widgets', 'legacy', '组件'] },
         { id: 'dash-apps', name: t('applications'), category: t('dashboard'), path: '/apps', section: 'apps', keywords: ['deployments', 'services', '应用'] },
         { id: 'dash-schedule', name: t('schedule'), category: t('applications'), path: '/apps', section: 'schedule', keywords: ['calendar', 'events', '计划'] },
+        { id: 'dash-store', name: t('appStore'), category: t('dashboard'), path: '/dashboard1', section: 'app-store', keywords: ['game', 'marketplace', 'addons', '游戏商店'] },
+        { id: 'page-application-management', name: t('applicationManagement'), category: t('dashboard'), path: '/application-management', keywords: ['product', 'purchaser', 'management', '应用管理'] },
+        { id: 'dash-customers', name: t('customers'), category: t('dashboard'), path: '/customers', section: 'customers', keywords: ['users', 'clients', '客户'] },
         { id: 'dash-model-store', name: t('modelStore'), category: t('dashboard'), path: '/dashboard1', section: 'model-store', keywords: ['model', 'llm', 'catalog', '模型商店'] },
         { id: 'dash-inference', name: t('inferenceServices'), category: t('dashboard'), path: '/dashboard1', section: 'inference', keywords: ['inference', 'deploy', 'endpoint', '推理'] },
         { id: 'dash-training', name: t('trainingJobs'), category: t('dashboard'), path: '/dashboard1', section: 'training', keywords: ['training', 'fine-tune', 'job', '训练'] },
         { id: 'dash-tools', name: t('agentTools'), category: t('dashboard'), path: '/dashboard1', section: 'tools', keywords: ['agent', 'tools', 'mcp', '工具'] },
         { id: 'page-apps', name: t('allApplications'), category: t('pages'), path: '/apps', keywords: ['list', '列表'] },
+        { id: 'page-applications', name: t('applications'), category: t('pages'), path: '/applications', keywords: ['orders', 'list', '订单', '列表'] },
     ];
 
     useEffect(() => {

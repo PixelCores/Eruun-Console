@@ -6,14 +6,19 @@ import { SidebarAccountPanel } from '../../../components/SidebarAccountPanel';
 import {
     Search,
     LayoutGrid,
+    Layout,
     AppWindow,
     Settings,
+    Settings2,
     Code,
     Keyboard,
     Box,
     Bot,
     Server,
     GraduationCap,
+    ShoppingBag,
+    Layers,
+    Disc,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -82,8 +87,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection = 'dashboard', onSectio
                     </div>}
                 </div>
                 {[
-                    { icon: LayoutGrid, label: t('dashboard'), section: 'widgets', path: '/dashboard1' },
-                    { icon: AppWindow, label: t('apps'), section: 'apps', path: '/apps' },
+                    { icon: LayoutGrid, label: t('dashboard'), section: 'dashboard', path: '/' },
+                    { icon: Layout, label: t('dashboardLegacy'), section: 'dashboard1', path: '/dashboard1' },
+                    { icon: ShoppingBag, label: t('appStore'), section: 'app-store' },
+                    { icon: Settings2, label: t('applicationManagement'), section: 'application-management', path: '/application-management' },
+                    { icon: Layers, label: t('applications'), section: 'applications', path: '/applications' },
+                    { icon: AppWindow, label: t('applicationsLegacy'), section: 'apps', path: '/apps' },
                     { icon: Box, label: t('modelStore'), section: 'model-store' },
                     { icon: Server, label: t('inferenceServices'), section: 'inference' },
                     { icon: GraduationCap, label: t('trainingJobs'), section: 'training' },
@@ -111,6 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection = 'dashboard', onSectio
                 {!isCollapsed && <div className="text-xs font-medium text-gray-400 px-2 mb-2">{t('searches').toUpperCase()}</div>}
                 <div className="space-y-1">
                     {[
+                        { icon: Disc, color: 'text-orange-600', bg: 'bg-orange-100', label: t('customerSuccess'), section: 'customer-success' },
                         { icon: Keyboard, color: 'text-green-600', bg: 'bg-green-100', label: t('shortcuts'), section: 'shortcuts' },
                         { icon: Code, color: 'text-pink-600', bg: 'bg-pink-100', label: t('language'), section: 'language' },
                         { icon: Settings, color: 'text-blue-600', bg: 'bg-blue-100', label: t('settings'), section: 'settings' },

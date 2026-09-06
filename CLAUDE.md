@@ -46,18 +46,29 @@ pnpm preview
 
 ```
 /login                    登录页（验证码/密码两种方式）
-/ → /dashboard1           仪表盘（模型/推理/训练/语言/工具等区块）
+/                         仪表盘（DashboardPage，游戏云总览；带 ?section= 时重定向 /dashboard1）
+/dashboard                旧版仪表盘跳转（兼容链接）
+/dashboard1               仪表盘（widgets 组件页 + app-store/customers/tools/model-store/inference/training 等区块）
+/application-management   应用管理（CloudForge 迁移）
 /apps                     应用列表
+/applications             已购应用/订单实例（CloudForge 迁移）
+/customers                客户管理（CloudForge 迁移）
+/messages                 消息中心（CloudForge 迁移）
 /workflow/:appId          工作流画布（核心功能，组件⇄节点双向转换、Traits 面板族、GuidedTour）
 /api-docs                 API 文档页
 /button-popup-example     组件示例页
 ```
 
+注：`/dashboard1` 通过 `?section=` 切换区块（widgets/schedule/app-store/customers/tools/model-store/inference/training/settings/shortcuts/language），侧边栏与命令面板的区块跳转都依赖该参数。
+
 ## 目录结构
 
 ```
 src/
-├── api/            # API 层：request.ts 为统一入口；paasAuth.ts 为认证服务客户端
+├── api/            # API 层：request.ts 为统一入口；paasAuth.ts 为认证服务客户端；
+│                     业务模块 apps/models/inference/training/tools/languages/settings/
+│                     schedule/profile（AI 平台）+ customers/games/orders/messages/
+│                     paasBilling（CloudForge 迁移）
 ├── assets/         # 图片与 svg 资源
 ├── components/     # 通用组件
 │   ├── base/         # 基础控件（Modal/Input/Tooltip/Switch…）
@@ -71,7 +82,8 @@ src/
 ├── examples/
 ├── hooks/          # useShortcuts/useDebounce/useInfiniteScroll/useResizeWidth…
 ├── i18n/           # messages.ts（en + zh-CN）+ Provider
-├── pages/          # dashboard/ apps/ login/ schedule/ WorkflowPage / ApiDocsPage…
+├── pages/          # dashboard/ apps/ applications/ app-store/ application-management/
+│                   # customers/ messages/ login/ schedule/ WorkflowPage / ApiDocsPage…
 ├── stores/         # flowStore（画布）、authStore、settingsStore、tenantStore、
 │                   # shortcutsStore、tourStore、uiStore
 ├── styles/         # themes.css 语义化设计令牌（亮/暗）

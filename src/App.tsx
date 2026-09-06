@@ -2,8 +2,13 @@ import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import AppsPage from './pages/apps/page';
+import ApplicationsPage from './pages/applications/ApplicationsPage';
 import WorkflowPage from './pages/WorkflowPage';
+import DashboardPage from './pages/dashboard/DashboardPage';
 import Dashboard1Page from './pages/dashboard/Dashboard1Page';
+import ApplicationManagementPage from './pages/application-management/ApplicationManagementPage';
+import CustomersPage from './pages/customers/page';
+import MessagesPage from './pages/messages/MessagesPage';
 import ApiDocsPage from './pages/ApiDocsPage';
 import { ButtonPopupExample } from './examples/ButtonPopupExample';
 import { CommandPalette } from './components/CommandPalette/CommandPalette';
@@ -72,6 +77,27 @@ const Dashboard1Route: React.FC = () => {
   return <Dashboard1Page roleLabel={roleLabel} />;
 };
 
+const DashboardRoute: React.FC = () => {
+  const location = useLocation();
+  const hasLegacySection = new URLSearchParams(location.search).has('section');
+
+  if (hasLegacySection) {
+    return <Navigate to={`/dashboard1${location.search}${location.hash}`} replace />;
+  }
+
+  return <DashboardPage />;
+};
+
+const LegacyDashboardRoute: React.FC = () => {
+  const location = useLocation();
+  const hasLegacySection = new URLSearchParams(location.search).has('section');
+  const destination = hasLegacySection
+    ? `/dashboard1${location.search}${location.hash}`
+    : `/${location.hash}`;
+
+  return <Navigate to={destination} replace />;
+};
+
 const App: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login' || location.pathname === '/login/';
@@ -86,9 +112,14 @@ const App: React.FC = () => {
         <Route element={<RequireAuth />}>
           <Route element={<AuthenticatedShell />}>
             <Route element={<DashboardLayout />}>
-              <Route path="/" element={<Navigate to="/dashboard1" replace />} />
+              <Route path="/" element={<DashboardRoute />} />
+              <Route path="/dashboard" element={<LegacyDashboardRoute />} />
               <Route path="/dashboard1" element={<Dashboard1Route />} />
+              <Route path="/application-management" element={<ApplicationManagementPage />} />
               <Route path="/apps" element={<AppsPage />} />
+              <Route path="/applications" element={<ApplicationsPage />} />
+              <Route path="/customers" element={<CustomersPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
             </Route>
             <Route path="/workflow/:appId" element={<WorkflowPage />} />
             <Route path="/button-popup-example" element={<ButtonPopupExample />} />

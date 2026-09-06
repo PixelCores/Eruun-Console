@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { useTranslations } from 'next-intl';
 import SalesRevenueWidget from './components/SalesRevenueWidget';
 import SegmentationWidget from './components/SegmentationWidget';
@@ -9,6 +9,8 @@ import UserRetentionWidget from './components/UserRetentionWidget';
 import LeadsByStatusWidget from './components/LeadsByStatusWidget';
 import CommunityInsightsWidget from './components/CommunityInsightsWidget';
 import { List as AppsList } from '../apps/list';
+import { GameAppStoreList } from '../app-store/game-list';
+import { List as CustomersList } from '../customers/list';
 import ToolsSection from './components/ToolsSection';
 import ModelStoreSection from './components/ModelStoreSection';
 import InferenceServicesSection from './components/InferenceServicesSection';
@@ -27,10 +29,18 @@ const Dashboard1Page: React.FC<Dashboard1PageProps> = ({ roleLabel }) => {
     const sectionFromUrl = searchParams.get('section');
     const activeSection = sectionFromUrl || 'widgets';
 
+    if (activeSection === 'app-store1') {
+        return <Navigate to="/application-management" replace />;
+    }
+
     return (
         <div className={activeSection === 'settings' ? 'h-screen' : 'p-8'}>
             {activeSection === 'apps' ? (
                 <AppsList />
+            ) : activeSection === 'app-store' ? (
+                <GameAppStoreList />
+            ) : activeSection === 'customers' ? (
+                <CustomersList />
             ) : activeSection === 'tools' ? (
                 <ToolsSection />
             ) : activeSection === 'model-store' ? (

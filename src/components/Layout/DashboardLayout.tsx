@@ -9,19 +9,24 @@ export const DashboardLayout: React.FC = () => {
 
     const activeSection = (() => {
         const path = location.pathname;
+        if (path.startsWith('/applications')) return 'applications';
         if (path.startsWith('/apps')) return 'apps';
-        if (path.startsWith('/dashboard1') || path === '/') {
+        if (path.startsWith('/application-management')) return 'application-management';
+        if (path.startsWith('/customers')) return 'customers';
+        if (path.startsWith('/messages')) return 'messages';
+        if (path.startsWith('/dashboard1')) {
             const dashboard1Section = searchParams.get('section');
             return !dashboard1Section || dashboard1Section === 'widgets'
-                ? 'widgets'
+                ? 'dashboard1'
                 : dashboard1Section;
         }
+        if (path === '/dashboard' || path === '/') return 'dashboard';
 
-        return 'widgets';
+        return 'dashboard';
     })();
 
     const handleSectionChange = (section: string) => {
-        if (['widgets', 'schedule', 'apps', 'tools', 'model-store', 'inference', 'training', 'settings', 'shortcuts', 'language'].includes(section)) {
+        if (['widgets', 'schedule', 'app-store', 'apps', 'tools', 'model-store', 'inference', 'training', 'customers', 'companies', 'settings', 'customer-success', 'shortcuts', 'language'].includes(section)) {
             navigate(`/dashboard1?section=${section}`);
         }
     };

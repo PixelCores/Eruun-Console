@@ -2,6 +2,8 @@
 
 本文件为 Claude Code (claude.ai/code) 在本仓库工作时提供指引。
 
+> **协作规范**：所有前端工作（页面、组件、样式、交互、API 集成）必须遵循 `.claude/skills/eruun-console/SKILL.md` 中的 **eruun-console** 规范——其中第 2 节「UI 风格一致性」为最高优先级约定（字号四档刻度、颜色全走设计令牌、复用既有组件）。
+
 ## 项目简介
 
 **Eruun Console** 是 [Eruun](../Eruun) 的 Web 控制台。Eruun 是面向 Agent、模型与 AI 工作负载的分布式运行时（Go 后端，API 默认端口 8000，路由前缀 `/api/v1`）。
@@ -112,6 +114,12 @@ src/
 
 - 工具类令牌（`text-text-primary`、`bg-components-panel-bg`、`border-divider-regular` 等）由 `index.css` 的 `@theme` 定义；语义化变量（亮/暗两套）在 `styles/themes.css`。
 - 新增颜色：优先复用现有令牌；确需新增时在 `index.css` 的 `@theme` 中定义。
+- **字号只使用三档标准刻度**（全站统计的主流用法）：
+  - `text-2xl font-semibold` — 页面级标题（h1）
+  - `text-lg font-medium/semibold` — 分区/卡片标题（h2/h3）
+  - `text-sm` — 正文、表单、按钮等一切控件
+  - `text-xs` — 辅助说明、标签、页脚
+- 不要使用任意值字号（`text-[13px]` 等）。历史代码中存在约 340 处 `text-[10px]–[15px]` 任意值（移植债务），新代码禁止新增；改动到相关组件时可顺手归并到最近的刻度。
 
 ## 后端参考
 
